@@ -21,6 +21,7 @@ function wa_defaults() {
 		'link_estate'        => 'https://buy.stripe.com/test_cNicN78O16YC1JxeSUdnW02',
 		'notify_email'       => 'hello@wonderads.net',
 		'elevenlabs_agent'   => 'agent_3401m566gcqcem4ttrtettfac1d0',
+		'lead_email'         => '',
 		'hero_video'         => '',
 		'hero_poster'        => '',
 		'ex1_video'          => '',
@@ -41,6 +42,10 @@ function wa_defaults() {
 }
 
 function wa_opt( $key ) {
+	if ( 'lead_email' === $key ) {
+		$o = get_option( 'wa_settings', array() );
+		return ! empty( $o['lead_email'] ) ? $o['lead_email'] : get_option( 'admin_email' );
+	}
 	$opts     = get_option( 'wa_settings', array() );
 	$defaults = wa_defaults();
 	if ( isset( $opts[ $key ] ) && '' !== $opts[ $key ] ) {
@@ -289,6 +294,9 @@ function wa_flatten_submission( $d ) {
 		'Website'                  => isset( $d['website'] ) ? $d['website'] : '',
 		'Logo'                     => isset( $d['logo'] ) ? implode( "\n", (array) $d['logo'] ) : '',
 	);
+	if ( ! empty( $d['report'] ) && is_array( $d['report'] ) ) {
+		$out = array_merge( $out, $d['report'] );
+	}
 	if ( ! empty( $d['config'] ) && is_array( $d['config'] ) ) {
 		$out['Custom order'] = wa_config_summary( $d['config'] );
 	}
@@ -371,6 +379,7 @@ function wa_settings_page() {
 		),
 		'Voice agent'   => array(
 			'elevenlabs_agent' => array( 'ElevenLabs agent ID', 'The Alex voice agent shown on every page. Type "off" to hide it.', 'text' ),
+			'lead_email'       => array( 'Send lead reports to', 'Every conversation where Alex captures a lead is emailed here. Leave empty to use the WordPress admin email.', 'email' ),
 		),
 		'Videos'        => array(
 			'hero_video'    => array( 'Hero background video URL', 'Leave empty to use the newest video in the Media Library. A compressed web version (under 15 MB, 1080p) loads fastest.', 'url' ),
@@ -939,3 +948,98 @@ add_action(
 	},
 	50
 );
+
+/* -------------------------------------------------------------------------
+ * Voice agent lead reports (called by the ElevenLabs "send_lead_report" tool)
+ * ---------------------------------------------------------------------- */
+
+// SHA-256 of the shared key stored in the ElevenLabs tool header (the key itself is not in this repo).
+define( 'WA_LEAD_KEY_HASH', '1549555799c5772249456d3aa43925d6e0bc682071d6d5356547f5148901382f' );
+
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'wonder/v1',
+			'/lead',
+			array(
+				'methods'             => 'POST',
+				'callback'            => 'wa_rest_lead',
+				'permission_callback' => function ( WP_REST_Request $req ) {
+					$key = (string) $req->get_header( 'x_wonder_key' );
+					return '' !== $key && hash_equals( WA_LEAD_KEY_HASH, hash( 'sha256', $key ) );
+				},
+			)
+		);
+	}
+);
+
+function wa_lead_fields() {
+	return array(
+		'lead_status'         => 'Lead status',
+		'name'                => 'Name',
+		'email'               => 'Email',
+		'phone'               => 'Phone',
+		'brokerage'           => 'Realty group / brokerage',
+		'role'                => 'Role',
+		'location'            => 'Market / location',
+		'listings_count'      => 'Upcoming listings',
+		'price_range'         => 'Typical price range',
+		'furnished'           => 'Homes furnished / move-in ready',
+		'timeline'            => 'Timeline',
+		'budget'              => 'Budget',
+		'interest'            => 'Interested in',
+		'quote'               => 'Price discussed',
+		'questions'           => 'Questions asked',
+		'objections'          => 'Concerns / objections',
+		'next_step'           => 'Agreed next step',
+		'preferred_call_time' => 'Preferred call time',
+		'follow_up'           => 'Follow-up needed',
+		'summary'             => 'Conversation summary',
+	);
+}
+
+function wa_rest_lead( WP_REST_Request $req ) {
+	$b    = (array) $req->get_json_params();
+	$data = array( 'type' => 'voice lead', 'report' => array() );
+	foreach ( wa_lead_fields() as $k => $label ) {
+		$v = isset( $b[ $k ] ) ? trim( sanitize_textarea_field( (string) $b[ $k ] ) ) : '';
+		if ( '' !== $v && 'unknown' !== strtolower( $v ) ) {
+			$data['report'][ $label ] = $v;
+		}
+	}
+	$data['name']      = isset( $data['report']['Name'] ) ? $data['report']['Name'] : '';
+	$data['email']     = isset( $b['email'] ) ? sanitize_email( $b['email'] ) : '';
+	$data['phone']     = isset( $data['report']['Phone'] ) ? $data['report']['Phone'] : '';
+	$data['brokerage'] = isset( $data['report']['Realty group / brokerage'] ) ? $data['report']['Realty group / brokerage'] : '';
+	$conv              = isset( $b['conversation_id'] ) ? sanitize_text_field( $b['conversation_id'] ) : '';
+	$data['order_label'] = 'Voice agent (Alex)';
+
+	$who     = $data['name'] ? $data['name'] : 'Website visitor';
+	$post_id = wp_insert_post(
+		array(
+			'post_type'   => 'wa_submission',
+			'post_status' => 'publish',
+			'post_title'  => 'Alex lead: ' . $who . ( $data['brokerage'] ? ' — ' . $data['brokerage'] : '' ),
+		)
+	);
+	update_post_meta( $post_id, '_wa_data', $data );
+
+	$lines   = array( 'New lead from Alex, the Wonder Ads voice agent.', '' );
+	foreach ( $data['report'] as $label => $v ) {
+		$lines[] = $label . ":\n" . $v . "\n";
+	}
+	if ( $conv ) {
+		$lines[] = 'Full transcript and recording: https://elevenlabs.io/app/agents/history/' . rawurlencode( $conv );
+	}
+	$lines[] = 'Open in WordPress: ' . admin_url( 'post.php?post=' . $post_id . '&action=edit' );
+
+	$status  = isset( $data['report']['Lead status'] ) ? ' [' . $data['report']['Lead status'] . ']' : '';
+	$headers = array();
+	if ( $data['email'] && is_email( $data['email'] ) ) {
+		$headers[] = 'Reply-To: ' . $who . ' <' . $data['email'] . '>';
+	}
+	$sent = wp_mail( wa_opt( 'lead_email' ), 'Alex lead report' . $status . ': ' . $who, implode( "\n", $lines ), $headers );
+
+	return array( 'ok' => true, 'emailed' => (bool) $sent );
+}
