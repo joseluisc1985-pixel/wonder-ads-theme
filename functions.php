@@ -1449,38 +1449,18 @@ add_action(
 );
 add_filter( 'feed_links_show_comments_feed', '__return_false' );
 
-
-/* llms.txt: a plain-text guide to the site for AI assistants and answer engines. */
+/* Unpublish the default "Hello world!" post once, so the Journal starts clean (moved to drafts, not deleted). */
 add_action(
 	'init',
 	function () {
-		$path = trim( wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '', PHP_URL_PATH ), '/' );
-		if ( 'llms.txt' !== $path ) {
+		if ( get_option( 'wa_hello_unpublished' ) ) {
 			return;
 		}
-		$p     = wa_pricing();
-		$lines = array(
-			'# Wonder Ads',
-			'',
-			'> Wonder Ads (wonderads.net) is a boutique AI video agency for luxury realtors, based in Miami, Florida. We turn MLS listing photos into cinematic reel videos with original music, voiceover storytelling and captions, delivered within 2 days. No shoot day.',
-			'',
-			'## Services',
-			'- Cinematic listing video (30-second vertical reel): $800. 60 seconds: $1,600. 90 seconds: $2,400. Horizontal or square versions: +$150 each.',
-			'- Collections, 20% off: Debut (3 videos) $1,920; Signature (6 videos) $3,840; Estate (10 videos) $6,400.',
-			'- Every video includes concept and script, original music, voiceover, captions, text on screen and two rounds of revisions.',
-			'- First video free for new realtors: ' . home_url( '/free-video/' ),
-			'- Pricing and Collections: ' . home_url( '/#pricing' ),
-			'- Support: support@wonderads.net',
-			'',
-			'## Journal',
-		);
-		foreach ( get_posts( array( 'post_type' => 'post', 'post_status' => 'publish', 'numberposts' => 200 ) ) as $post ) {
-			$desc    = get_post_meta( $post->ID, '_wa_meta', true );
-			$lines[] = '- [' . $post->post_title . '](' . get_permalink( $post ) . ')' . ( $desc ? ': ' . $desc : '' );
+		$p = get_page_by_path( 'hello-world', OBJECT, 'post' );
+		if ( $p && 'publish' === $p->post_status ) {
+			wp_update_post( array( 'ID' => $p->ID, 'post_status' => 'draft' ) );
 		}
-		header( 'Content-Type: text/plain; charset=utf-8' );
-		echo implode( "\n", $lines ) . "\n";
-		exit;
+		update_option( 'wa_hello_unpublished', 1, false );
 	},
-	1
+	30
 );
