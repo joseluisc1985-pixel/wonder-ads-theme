@@ -24,7 +24,7 @@ $links = array(
 		<div class="wrap hero-content">
 			<p class="eyebrow reveal">A Boutique AI Video Agency for Luxury Realtors</p>
 			<h1 class="hero-title reveal">Every home has a story.<br>We create the feeling.</h1>
-			<p class="hero-sub reveal">We are a Boutique AI Video Agency for Luxury Realtors. We create cinematic reel videos that let buyers feel the lifestyle of each property before the first showing — and help you close 2x faster.</p>
+			<p class="hero-sub reveal">We create cinematic reel videos that let buyers feel the lifestyle of each property before the first showing — and help you close 2x faster.</p>
 			<div class="hero-ctas reveal">
 				<a class="btn btn-light" href="<?php echo esc_url( home_url( '/free-video/' ) ); ?>">Create My Free Video</a>
 				<a class="btn btn-ghost-light" href="#examples">Watch Examples</a>
