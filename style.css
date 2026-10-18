@@ -408,7 +408,15 @@ textarea:focus, input:focus { border-color: var(--ink); }
 .brief-done .btn { margin-top: 36px; }
 .hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
 .prose p { max-width: 680px; }
-.prose .page-title { margin-bottom: 32px; }
+.prose .page-title { margin-bottom: 12px; }
+.prose .page-title + .muted { margin-bottom: 40px; font-size: .85rem; }
+.prose h2 { font-size: 1.25rem; letter-spacing: -.01em; margin: 48px 0 14px; }
+.prose p, .prose li { color: #3a3a3a; line-height: 1.75; }
+.prose p + p { margin-top: 14px; }
+.prose ul { margin: 14px 0 0; padding-left: 1.2em; max-width: 680px; }
+.prose li { margin-bottom: 8px; }
+.prose a { text-decoration: underline; text-underline-offset: 3px; }
+.prose .lead { color: var(--ink); }
 
 /* Motion */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
