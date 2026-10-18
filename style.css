@@ -550,3 +550,8 @@ textarea:focus, input:focus { border-color: var(--ink); }
 .nav-phone-icon { opacity: .9; flex: none; transform: translateY(-.5px); }
 .footer-phone { display: inline-flex; align-items: center; gap: 8px; }
 .footer-phone-icon { opacity: .9; flex: none; }
+
+/* Title case: every word capitalized in the hero and in all headlines. */
+.hero-content, .hero-foot, .hero-content *, .hero-foot * { text-transform: capitalize; }
+.hero .btn, .hero .eyebrow { text-transform: uppercase; }
+h1, h2, h3, .page-title, .article-title, .post-card-title, .included-title { text-transform: capitalize; }
