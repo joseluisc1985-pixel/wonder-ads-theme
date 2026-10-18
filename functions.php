@@ -73,12 +73,11 @@ function wa_video( $slot ) {
 	if ( $url ) {
 		return $url;
 	}
-	$lib = wa_library_videos();
-	$map = array( 'hero_video' => 0, 'ex1_video' => 1, 'ex2_video' => 2, 'ex3_video' => 3, 'compare_video' => 0 );
-	$i   = isset( $map[ $slot ] ) ? $map[ $slot ] : 0;
-	if ( isset( $lib[ $i ] ) ) {
-		return $lib[ $i ];
+	// Example reels are their own vertical videos: never fall back to the library.
+	if ( 0 === strpos( $slot, 'ex' ) ) {
+		return '';
 	}
+	$lib = wa_library_videos();
 	return isset( $lib[0] ) ? $lib[0] : '';
 }
 

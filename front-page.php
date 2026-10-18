@@ -64,15 +64,18 @@ $links = array(
 				<?php for ( $i = 1; $i <= 3; $i++ ) : ?>
 					<?php $v = wa_video( "ex{$i}_video" ); ?>
 					<figure class="phone-card reveal">
-						<button class="phone" data-play="<?php echo esc_url( $v ); ?>" aria-label="Play <?php echo esc_attr( wa_opt( "ex{$i}_title" ) ); ?>">
-							<span class="phone-notch"></span>
-							<?php if ( $v ) : ?>
-								<video src="<?php echo esc_url( $v ); ?>#t=<?php echo (int) ( $i * 4 ); ?>" muted loop playsinline preload="metadata" data-preview></video>
-							<?php else : ?>
+						<?php if ( $v ) : ?>
+							<button class="phone" data-play="<?php echo esc_url( $v ); ?>" aria-label="Play <?php echo esc_attr( wa_opt( "ex{$i}_title" ) ); ?>">
+								<span class="phone-notch"></span>
+								<video src="<?php echo esc_url( $v ); ?>" muted loop playsinline preload="metadata" data-preview></video>
+								<span class="phone-play" aria-hidden="true"></span>
+							</button>
+						<?php else : ?>
+							<div class="phone is-empty">
+								<span class="phone-notch"></span>
 								<span class="phone-empty">Reel coming soon</span>
-							<?php endif; ?>
-							<span class="phone-play" aria-hidden="true"></span>
-						</button>
+							</div>
+						<?php endif; ?>
 						<figcaption>
 							<strong><?php echo esc_html( wa_opt( "ex{$i}_title" ) ); ?></strong>
 							<span><?php echo esc_html( wa_opt( "ex{$i}_meta" ) ); ?></span>

@@ -231,6 +231,8 @@ h2 + .lead { margin-top: 28px; }
 	transition: transform .7s var(--ease);
 }
 .phone:hover { transform: translateY(-8px); }
+.phone.is-empty { cursor: default; }
+.phone.is-empty:hover { transform: none; }
 .phone video, .phone-empty { width: 100%; height: 100%; object-fit: cover; border-radius: 36px; background: #1a1a1a; }
 .phone-empty { display: flex; align-items: flex-end; justify-content: center; padding-bottom: 28%; color: rgba(255,255,255,.5); font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; }
 .phone-notch { position: absolute; top: 22px; left: 50%; width: 30%; height: 24px; transform: translateX(-50%); background: var(--ink); border-radius: 20px; z-index: 2; }
