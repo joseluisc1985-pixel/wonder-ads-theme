@@ -34,7 +34,7 @@ function wa_defaults() {
 		'ex3_video'          => '',
 		'ex3_title'          => 'Brickell Penthouse',
 		'ex3_meta'           => 'Miami, FL · $3.1M',
-		'compare_photo'      => '',
+		'compare_photo'      => get_template_directory_uri() . '/assets/mls-photo.jpg',
 		'compare_video'      => '',
 		'gdrive_sa_json'     => '',
 		'gdrive_folder_id'   => '',
