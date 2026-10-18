@@ -25,12 +25,16 @@ def parse(path):
     if fm:
         for q, a in re.findall(r"<h3>(.*?)</h3>\s*<p>(.*?)</p>", fm.group(1), re.S):
             faq.append({"q": re.sub(r"<[^>]+>", "", q).strip(), "a": re.sub(r"<[^>]+>", "", a).strip()})
-    meta.update(html=html, words=words, faq=faq, status=meta.get("status", "draft"))
+    meta.update(html=html, words=words, faq=faq, status=meta.get("status", "publish"))
     return meta
 
 def main():
     posts = [parse(p) for p in sorted((ROOT / "articles").glob("*.md"))]
     slugs = {p["slug"] for p in posts}
+    import datetime
+    base = datetime.datetime(2026, 10, 17, 22, 0, 0)
+    for i, p in enumerate(posts):
+        p.setdefault("date", (base - datetime.timedelta(minutes=7 * i)).strftime("%Y-%m-%d %H:%M:%S"))
     for p in posts:
         assert len(p["seo_title"]) <= 62, (p["slug"], len(p["seo_title"]))
         assert len(p["meta"]) <= 165, (p["slug"], len(p["meta"]))
