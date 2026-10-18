@@ -61,9 +61,9 @@ Disclosure rules vary. Many MLSs and brokerages already require labels on virtua
 
 This is not legal advice. Your MLS rules, brokerage policy and local regulations decide what is required.
 
-## What about people in AI listing videos?
+## What about AI avatars in listing videos?
 
-Adding people, such as a couple enjoying the terrace, can help buyers picture the lifestyle. It does not misrepresent the home as long as the property itself stays accurate. Keep casting and scenes consistent with fair housing guidelines, and avoid anything that suggests a preference for certain buyers.
+Adding AI avatars, such as a couple enjoying the terrace, can help buyers picture the lifestyle without hiring real actors. It does not misrepresent the home as long as the property itself stays accurate. Keep avatars and scenes consistent with fair housing guidelines, and avoid anything that suggests a preference for certain buyers.
 
 ## Which rooms need the most care?
 
