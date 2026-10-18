@@ -1057,3 +1057,28 @@ function wa_rest_lead( WP_REST_Request $req ) {
 
 	return array( 'ok' => true, 'emailed' => (bool) $sent );
 }
+
+/* Public, non-sensitive status: whether card checkout is configured and in which Stripe mode. */
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'wonder/v1',
+			'/status',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => '__return_true',
+				'callback'            => function () {
+					$key  = (string) wa_opt( 'stripe_secret' );
+					$mode = 0 === strpos( $key, 'sk_live_' ) || 0 === strpos( $key, 'rk_live_' ) ? 'live' : ( 0 === strpos( $key, 'sk_test_' ) || 0 === strpos( $key, 'rk_test_' ) ? 'test' : ( $key ? 'unrecognized' : 'none' ) );
+					$ok   = false;
+					if ( in_array( $mode, array( 'live', 'test' ), true ) ) {
+						$r  = wp_remote_get( 'https://api.stripe.com/v1/balance', array( 'headers' => array( 'Authorization' => 'Bearer ' . $key ), 'timeout' => 15 ) );
+						$ok = ! is_wp_error( $r ) && 200 === wp_remote_retrieve_response_code( $r );
+					}
+					return array( 'checkout_configured' => '' !== $key, 'stripe_mode' => $mode, 'key_valid' => $ok );
+				},
+			)
+		);
+	}
+);
