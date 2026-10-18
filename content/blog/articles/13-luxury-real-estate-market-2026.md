@@ -28,12 +28,12 @@ The luxury market is growing steadily rather than booming. Redfin defines luxury
 
 Supply is loosening slowly. Luxury new listings rose 2.0% and active luxury listings rose 1.4%, a smaller increase than in the non-luxury market (2.3%).
 
-| Measure (U.S., luxury) | Latest | Change vs. a year earlier |
-|---|---|---|
-| Median sale price | About $1.39M | +3.6% |
-| Pending sales | — | +4.3% |
-| New listings | — | +2.0% |
-| Active listings | — | +1.4% |
+| Measure (U.S., luxury homes) | Change vs. a year earlier |
+|---|---|
+| Median sale price (about $1.39M) | +3.6% |
+| Pending sales | +4.3% |
+| New listings | +2.0% |
+| Active listings | +1.4% |
 
 *Source: Redfin, three months ending April 30, 2026.*
 

@@ -1387,7 +1387,9 @@ function wa_seed_blog() {
 			'ping_status'    => 'closed',
 		);
 		if ( ! empty( $item['date'] ) ) {
-			$args['post_date'] = $item['date'];
+			$args['post_date']     = $item['date'];
+			$args['post_date_gmt'] = get_gmt_from_date( $item['date'] );
+			$args['edit_date']     = true;
 		}
 		if ( $existing ) {
 			$p = $existing[0];
