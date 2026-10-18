@@ -54,7 +54,7 @@ For luxury homes, slideshows tend to undersell the property. High-end buyers hav
 
 Cinematic AI video uses your existing listing photos as the foundation and creates movement, light and atmosphere around them with the latest AI models. Filmmakers direct each scene, write the script and add original music, voiceover and captions.
 
-The result feels like a short film about life in the home, without sending a crew. Because every scene starts from a real photo, it stays true to the property when it is checked carefully. We cover the rules in [AI listing videos and MLS rules](post:ai-listing-videos-mls-rules).
+The result feels like a short cinematic story about life in the home, without sending a crew. Because every scene starts from a real photo, it stays true to the property when it is checked carefully. We cover the rules in [AI listing videos and MLS rules](post:ai-listing-videos-mls-rules).
 
 <div class="inline-cta" markdown="1">
 **See the difference on your own listing.** Send us your MLS photos and get your first cinematic video free, delivered within 2 days. [Create My Free Video](/free-video/).

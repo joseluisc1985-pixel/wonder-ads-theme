@@ -27,7 +27,7 @@ Reels are the format Instagram pushes to people who do not follow you yet, which
 
 ## What are the best listing reels for luxury homes?
 
-The best listing reels feel like a short film: a strong first shot, a sense of daily life and a clear ending with how to book a showing.
+The best listing reels feel cinematic: a strong first shot, a sense of daily life and a clear ending with how to book a showing.
 
 **1. The cinematic hero reel.** A 30-second story of a day in the home, from sunrise coffee to an evening swim.
 *Hook: "This is what a Tuesday looks like at [address]."*

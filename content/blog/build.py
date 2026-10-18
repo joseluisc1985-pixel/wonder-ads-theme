@@ -31,10 +31,34 @@ def parse(path):
 def main():
     posts = [parse(p) for p in sorted((ROOT / "articles").glob("*.md"))]
     slugs = {p["slug"] for p in posts}
-    import datetime
-    base = datetime.datetime(2026, 10, 17, 22, 0, 0)
-    for i, p in enumerate(posts):
-        p.setdefault("date", (base - datetime.timedelta(minutes=7 * i)).strftime("%Y-%m-%d %H:%M:%S"))
+    import datetime, random
+    # Spread publish dates from January 2026 to today, never before the newest report an article cites.
+    rng = random.Random(2026)
+    earliest = datetime.datetime(2026, 1, 6)
+    latest = datetime.datetime(2026, 10, 16, 20, 0)
+    source_dates = {
+        "Redfin-Luxury-Spin-Off": datetime.datetime(2026, 7, 9),
+        "luxury-home-prices-rise-amid-uptick": datetime.datetime(2026, 5, 28),
+        "rismedia.com/2026/07/22": datetime.datetime(2026, 7, 24),
+        "pgci-q2-2026": datetime.datetime(2026, 9, 28),
+        "businessobserverfl.com/news/2026/sep/04": datetime.datetime(2026, 9, 7),
+        "mpamag.com": datetime.datetime(2026, 7, 9),
+        "nevadarealestategroup.com": datetime.datetime(2026, 9, 7),
+    }
+    free = []
+    for p in posts:
+        lo = max([earliest] + [d for k, d in source_dates.items() if k in p["html"]])
+        if lo == earliest:
+            free.append(p)
+            continue
+        when = lo + datetime.timedelta(seconds=rng.randint(0, int((latest - lo).total_seconds())))
+        p["date"] = when.replace(hour=rng.randint(7, 18), minute=rng.randint(0, 59), second=0).strftime("%Y-%m-%d %H:%M:%S")
+    # Evergreen posts: spread evenly across the whole period, in shuffled order, with a few days of jitter.
+    rng.shuffle(free)
+    step = (latest - earliest) / max(1, len(free))
+    for i, p in enumerate(free):
+        when = earliest + step * i + datetime.timedelta(days=rng.uniform(0, step.days * 0.8))
+        p["date"] = when.replace(hour=rng.randint(7, 18), minute=rng.randint(0, 59), second=0).strftime("%Y-%m-%d %H:%M:%S")
     for p in posts:
         assert len(p["seo_title"]) <= 62, (p["slug"], len(p["seo_title"]))
         assert len(p["meta"]) <= 165, (p["slug"], len(p["meta"]))

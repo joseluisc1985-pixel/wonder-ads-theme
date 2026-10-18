@@ -10,7 +10,7 @@ excerpt: The latest data on U.S. luxury home prices, where they're rising fastes
 
 The U.S. luxury real estate market is still rising in 2026, but unevenly. According to Redfin, the median luxury home sold for about $1.39 million in the three months ending April 2026, up 3.6% from a year earlier, with pending luxury sales up 4.3%. Gains are strongest in Sun Belt metros like Tampa and Las Vegas, while New York and Denver saw small declines.
 
-Here is what the latest data shows and what it means if you list or sell high-end homes. *Figures are current as of October 2026; we update this page as new reports come out.*
+Here is what the latest data shows and what it means if you list or sell high-end homes. *Figures reflect the latest reports available at the time of writing. We update this page as new data comes out.*
 
 <div class="key-takeaways" markdown="1">
 **Key takeaways**

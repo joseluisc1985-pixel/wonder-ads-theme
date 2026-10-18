@@ -10,7 +10,7 @@ excerpt: Two of America's top luxury markets, side by side: prices, sales, lifes
 
 Palm Beach and Miami are both top-tier luxury markets, but they suit different buyers. Miami offers a big-city lifestyle with fast-rising luxury prices, while Palm Beach County delivers a quieter, estate-focused market with higher luxury sales volume. In Q2 2026, Palm Beach County recorded 2,534 luxury single-family sales averaging $2.89 million, while Miami-Dade recorded 1,000 averaging $3.61 million.
 
-Here is how they compare in detail. *Data current as of October 2026.*
+Here is how they compare in detail. *Figures reflect the latest reports available at the time of writing.*
 
 <div class="key-takeaways" markdown="1">
 **Key takeaways**

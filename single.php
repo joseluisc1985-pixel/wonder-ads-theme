@@ -20,7 +20,7 @@ while ( have_posts() ) :
 				<?php if ( $cat ) : ?><p class="eyebrow"><?php echo esc_html( $cat->name ); ?></p><?php endif; ?>
 				<h1 class="article-title"><?php the_title(); ?></h1>
 				<?php if ( has_excerpt() ) : ?><p class="lead article-dek"><?php echo esc_html( get_the_excerpt() ); ?></p><?php endif; ?>
-				<p class="article-meta">By the Wonder Ads Studio · <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></time><?php if ( get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?> · Updated <?php echo esc_html( get_the_modified_date( 'F j, Y' ) ); ?><?php endif; ?> · <?php echo (int) wa_read_time(); ?> min read</p>
+				<p class="article-meta">By the Wonder Ads Studio · <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></time> · <?php echo (int) wa_read_time(); ?> min read</p>
 			</header>
 			<?php if ( has_post_thumbnail() ) : ?><figure class="article-hero"><?php the_post_thumbnail( 'full' ); ?></figure><?php endif; ?>
 			<div class="article-body prose">

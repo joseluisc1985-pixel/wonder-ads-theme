@@ -10,7 +10,7 @@ excerpt: The latest numbers on Miami's high-end market, from record luxury premi
 
 Miami's luxury real estate market is one of the strongest in the country in 2026. In Q2 2026, luxury single-family sales in Miami-Dade rose 32.5% year over year to 1,000 transactions, and the average price climbed 21.9% to $3.61 million, according to The Keyes Company and Illustrated Properties. Redfin also ranks Miami's luxury premium among the widest in the U.S.
 
-Here is what is driving the market and what it means for agents. *Data current as of October 2026.*
+Here is what is driving the market and what it means for agents. *Figures reflect the latest reports available at the time of writing.*
 
 <div class="key-takeaways" markdown="1">
 **Key takeaways**
