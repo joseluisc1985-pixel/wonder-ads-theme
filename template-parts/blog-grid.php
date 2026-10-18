@@ -5,7 +5,8 @@
 $q = isset( $args['query'] ) ? $args['query'] : $GLOBALS['wp_query'];
 ?>
 <main class="inner journal">
-	<section class="section journal-head">
+	<section class="section has-art journal-head">
+		<?php echo wa_art( 'arc' ); ?>
 		<div class="wrap">
 			<p class="eyebrow"><?php echo esc_html( $args['eyebrow'] ); ?></p>
 			<h1 class="page-title"><?php echo esc_html( $args['title'] ); ?></h1>

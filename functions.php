@@ -1482,3 +1482,27 @@ add_action(
 	},
 	30
 );
+
+/*
+ * Gallery art: quiet, minimal compositions behind sections (circle, field, zip, line drawing,
+ * rings, grid, nested squares, arc, stele, horizon). Decorative only.
+ */
+function wa_art( $name ) {
+	$s = 'vector-effect="non-scaling-stroke"';
+	$svg = array(
+		'circle'  => '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" fill="none" stroke="currentColor" ' . $s . '/></svg>',
+		'field'   => '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 L0 18 C38 18 78 46 100 100 Z" fill="var(--stone)"/></svg>',
+		'zip'     => '<svg viewBox="0 0 10 100" preserveAspectRatio="none"><line x1="5" y1="0" x2="5" y2="100" stroke="currentColor" ' . $s . '/><rect x="2" y="6" width="6" height="6" fill="var(--stone)"/></svg>',
+		'lines'   => '<svg viewBox="0 0 100 100"><rect x="0.5" y="0.5" width="99" height="99" fill="none" stroke="currentColor" ' . $s . '/>' . implode( '', array_map( function ( $i ) use ( $s ) { return '<line x1="' . ( $i * 12.5 ) . '" y1="100" x2="100" y2="' . ( $i * 12.5 ) . '" stroke="currentColor" ' . $s . '/>'; }, range( 1, 7 ) ) ) . '</svg>',
+		'rings'   => '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" fill="none" stroke="currentColor" ' . $s . '/><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" ' . $s . '/><circle cx="50" cy="50" r="22" fill="none" stroke="currentColor" ' . $s . '/></svg>',
+		'grid'    => '<svg viewBox="0 0 100 100">' . implode( '', array_map( function ( $i ) use ( $s ) { $p = $i * 12.5; return '<line x1="' . $p . '" y1="0" x2="' . $p . '" y2="100" stroke="currentColor" ' . $s . '/><line x1="0" y1="' . $p . '" x2="100" y2="' . $p . '" stroke="currentColor" ' . $s . '/>'; }, range( 0, 8 ) ) ) . '</svg>',
+		'squares' => '<svg viewBox="0 0 100 100"><rect x="0" y="22" width="78" height="78" fill="var(--stone)"/><rect x="22.5" y="0.5" width="77" height="77" fill="none" stroke="currentColor" ' . $s . '/></svg>',
+		'arc'     => '<svg viewBox="0 0 100 100"><path d="M0.5 99.5 A99 99 0 0 1 99.5 0.5" fill="none" stroke="currentColor" ' . $s . '/></svg>',
+		'stele'   => '<svg viewBox="0 0 10 100" preserveAspectRatio="none"><rect x="0" y="0" width="10" height="100" fill="var(--stone)"/></svg>',
+		'horizon' => '<svg viewBox="0 0 100 50"><path d="M0.5 50 A49.5 49.5 0 0 1 99.5 50" fill="none" stroke="currentColor" ' . $s . '/><line x1="0" y1="49.5" x2="100" y2="49.5" stroke="currentColor" ' . $s . '/></svg>',
+	);
+	if ( ! isset( $svg[ $name ] ) ) {
+		return '';
+	}
+	return '<span class="art art--' . esc_attr( $name ) . '" aria-hidden="true">' . $svg[ $name ] . '</span>';
+}

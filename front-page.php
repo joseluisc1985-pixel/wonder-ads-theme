@@ -55,7 +55,8 @@ $links = array(
 	</section>
 
 	<!-- Examples -->
-	<section class="section" id="examples">
+	<section class="section has-art" id="examples">
+		<?php echo wa_art( 'circle' ); ?>
 		<div class="wrap">
 			<div class="section-head center reveal">
 				<p class="eyebrow">Examples</p>
@@ -89,7 +90,8 @@ $links = array(
 	</section>
 
 	<!-- Free video -->
-	<section class="section band">
+	<section class="section has-art band">
+		<?php echo wa_art( 'field' ); ?>
 		<div class="wrap narrow center reveal">
 			<p class="eyebrow">Your first video is on us</p>
 			<h2>See your listing as a cinematic experience. Free.</h2>
@@ -99,7 +101,8 @@ $links = array(
 	</section>
 
 	<!-- The difference -->
-	<section class="section">
+	<section class="section has-art">
+		<?php echo wa_art( 'zip' ); ?>
 		<div class="wrap split">
 			<div class="reveal">
 				<p class="eyebrow">The Difference</p>
@@ -118,7 +121,8 @@ $links = array(
 	</section>
 
 	<!-- What no one else does -->
-	<section class="section band">
+	<section class="section has-art band">
+		<?php echo wa_art( 'lines' ); ?>
 		<div class="wrap split">
 			<div class="reveal">
 				<p class="eyebrow">What No One Else Does</p>
@@ -171,7 +175,8 @@ $links = array(
 	</section>
 
 	<!-- Proof -->
-	<section class="section proof">
+	<section class="section has-art proof">
+		<?php echo wa_art( 'rings' ); ?>
 		<div class="wrap narrow center reveal">
 			<p class="stat">2x</p>
 			<h2>Close twice as fast.</h2>
@@ -181,7 +186,8 @@ $links = array(
 	</section>
 
 	<!-- How it works -->
-	<section class="section" id="how">
+	<section class="section has-art" id="how">
+		<?php echo wa_art( 'grid' ); ?>
 		<div class="wrap">
 			<div class="section-head center reveal">
 				<p class="eyebrow">How it works</p>
@@ -196,7 +202,8 @@ $links = array(
 	</section>
 
 	<!-- Real humans + style -->
-	<section class="section band">
+	<section class="section has-art band">
+		<?php echo wa_art( 'squares' ); ?>
 		<div class="wrap split">
 			<div class="reveal">
 				<p class="eyebrow">Real humans. Real craft.</p>
@@ -236,7 +243,8 @@ $links = array(
 	</section>
 
 	<!-- Collections -->
-	<section class="section band" id="pricing">
+	<section class="section has-art band" id="pricing">
+		<?php echo wa_art( 'arc' ); ?>
 		<div class="wrap">
 			<div class="section-head center reveal">
 				<p class="eyebrow">The Collections</p>
@@ -354,7 +362,8 @@ $links = array(
 	</section>
 
 	<!-- Studio -->
-	<section class="section band">
+	<section class="section has-art band">
+		<?php echo wa_art( 'stele' ); ?>
 		<div class="wrap split">
 			<div class="reveal">
 				<p class="eyebrow">The Studio</p>
@@ -394,7 +403,8 @@ $links = array(
 	</section>
 
 	<!-- Closing -->
-	<section class="section closing">
+	<section class="section has-art closing">
+		<?php echo wa_art( 'horizon' ); ?>
 		<div class="wrap narrow center reveal">
 			<h2>Your next listing deserves a premiere.</h2>
 			<p class="lead">Two days from now, it could be playing.</p>
