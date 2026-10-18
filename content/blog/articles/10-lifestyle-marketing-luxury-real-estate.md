@@ -50,7 +50,7 @@ Show lifestyle by building the video around a short day in the life, with people
 We explain the full structure in our guide to [luxury real estate video marketing](post:luxury-real-estate-video-marketing), and offer copy-paste scripts in [luxury listing video script templates](post:luxury-real-estate-video-script-templates).
 
 <div class="inline-cta" markdown="1">
-**We sell the lifestyle. You sell the property.** Wonder Ads creates cinematic listing videos that show buyers the life a home offers, with actors, original music and voiceover. [Create My Free Video](/free-video/).
+**We sell the lifestyle. You sell the property.** Wonder Ads creates cinematic listing videos that show buyers the life a home offers, with avatars, original music and voiceover. [Create My Free Video](/free-video/).
 </div>
 
 ## How do you write lifestyle copy for a listing?

@@ -48,7 +48,7 @@ A luxury listing video should include a strong opening shot, moments of real lif
 
 1. **A hook in the first two seconds.** The most striking view, not the front door.
 2. **A story arc.** Morning to evening works beautifully: coffee at sunrise, a family lunch, a quiet swim as the lights come on.
-3. **People, used carefully.** Actors or lifestyle moments help buyers picture themselves in the home.
+3. **People, used carefully.** Avatars and lifestyle moments help buyers picture themselves in the home.
 4. **Original music.** It sets the mood and avoids the "stock track" feel buyers have heard a hundred times.
 5. **Voiceover storytelling.** Two or three short lines that name the feeling the home creates.
 6. **Captions.** Word-synced captions keep silent viewers watching.

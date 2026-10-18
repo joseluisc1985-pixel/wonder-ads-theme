@@ -339,7 +339,7 @@ function wa_config_summary( $c ) {
 	if ( $c['custom_script'] && $c['script'] ) {
 		$parts[] = 'Script: ' . $c['script'];
 	}
-	$parts[] = 'Actors: ' . ( $c['actors'] ? 'Yes' : 'Walkthrough only' );
+	$parts[] = 'Avatars: ' . ( $c['actors'] ? 'Yes' : 'Walkthrough only' );
 	$parts[] = 'Captions: ' . ( $c['captions'] ? 'Yes' : 'No' );
 	$parts[] = 'Total: $' . number_format( $c['total'] );
 	return implode( "\n", $parts );
@@ -623,7 +623,7 @@ function wa_rest_checkout( WP_REST_Request $req ) {
 		. ' · ' . ucfirst( $cfg['music'] ) . ' music'
 		. ( $cfg['storytelling'] ? ' · ' . ucfirst( $cfg['story_style'] ) . ' storytelling voiceover' : '' )
 		. ( $cfg['custom_script'] ? ' · Custom voiceover script' : '' )
-		. ( $cfg['actors'] ? ' · Actors' : ' · Walkthrough' )
+		. ( $cfg['actors'] ? ' · Avatars' : ' · Walkthrough' )
 		. ( $cfg['captions'] ? ' · Captions' : '' );
 
 	$session = wa_stripe(

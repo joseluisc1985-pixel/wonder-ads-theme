@@ -335,7 +335,7 @@ $links = array(
 
 					<fieldset class="field">
 						<legend>Extras</legend>
-						<label class="toggle"><input type="checkbox" name="actors" checked><span class="switch"></span><span><strong>Actors</strong><br><small>Choose actors for a more cinematic experience. Off = walkthrough only.</small></span></label>
+						<label class="toggle"><input type="checkbox" name="actors" checked><span class="switch"></span><span><strong>Avatars</strong><br><small>Add avatars for a more cinematic experience. Off = walkthrough only.</small></span></label>
 						<label class="toggle"><input type="checkbox" name="captions" checked><span class="switch"></span><span><strong>Captions</strong></span></label>
 					</fieldset>
 				</div>
@@ -381,7 +381,7 @@ $links = array(
 				'What if I want changes?'                         => 'Every cinematic video includes two rounds of revisions.',
 				'Which format will I receive?'                    => 'One 9:16 vertical master, ready for Reels and TikTok. Horizontal and square versions are available for an additional fee on custom orders only.',
 				'Can I use the cinematic videos in paid ads?'     => 'Yes. Our music is original, and every cinematic video is designed to perform on Facebook and Instagram campaigns.',
-				'Do I need to be in the video?'                   => 'No. The home is the star. Actors can be added to your custom order.',
+				'Do I need to be in the video?'                   => 'No. The home is the star. Avatars can be added to your custom order.',
 				'Which properties is this best for?'              => 'High-end listings from $1.5M and up that are fully furnished and move-in ready. The more lived-in and styled the home, the more powerful the story.',
 			);
 			?>
