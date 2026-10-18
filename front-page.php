@@ -266,21 +266,18 @@ $links = array(
 				<?php endforeach; ?>
 			</div>
 			<div class="included reveal">
-				<div>
-					<h4>What's included</h4>
-					<ul>
-						<li>30-second Reels</li><li>Concept and script</li><li>Production</li><li>Original music</li>
-						<li>Voiceover creative storytelling</li><li>Captions</li><li>Text-on-screen</li><li>Two rounds of revisions</li>
-					</ul>
-				</div>
-				<div>
-					<h4>Flexible</h4>
-					<p>Spread your videos across different listings, or create multiple variations of the same listing.</p>
-				</div>
-				<div>
-					<h4>Delivery</h4>
-					<ul><li>30-second Reel videos</li><li>Delivered within 2 days</li></ul>
-				</div>
+				<h4 class="included-title">Every video includes</h4>
+				<ul class="included-grid">
+					<li>Concept &amp; script</li>
+					<li>Production</li>
+					<li>Original music</li>
+					<li>Voiceover storytelling</li>
+					<li>Captions</li>
+					<li>Text on screen</li>
+					<li>30-second vertical reel</li>
+					<li>Two rounds of revisions</li>
+				</ul>
+				<p class="included-note">Delivered within 2 days <span aria-hidden="true">·</span> Use across different listings, or as variations of the same one.</p>
 			</div>
 			<p class="help-note reveal">Questions before you choose? Our live agent is here for you at the bottom right of the page. Chat or call, anytime.</p>
 		</div>
