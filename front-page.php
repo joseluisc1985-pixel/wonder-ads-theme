@@ -335,7 +335,7 @@ $links = array(
 
 					<fieldset class="field">
 						<legend>Extras</legend>
-						<label class="toggle"><input type="checkbox" name="actors"><span class="switch"></span><span><strong>Actors</strong><br><small>Choose actors for a more cinematic experience. Off = walkthrough only.</small></span></label>
+						<label class="toggle"><input type="checkbox" name="actors" checked><span class="switch"></span><span><strong>Actors</strong><br><small>Choose actors for a more cinematic experience. Off = walkthrough only.</small></span></label>
 						<label class="toggle"><input type="checkbox" name="captions" checked><span class="switch"></span><span><strong>Captions</strong></span></label>
 					</fieldset>
 				</div>
