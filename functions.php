@@ -22,6 +22,8 @@ function wa_defaults() {
 		'notify_email'       => 'hello@wonderads.net',
 		'elevenlabs_agent'   => 'agent_3401m566gcqcem4ttrtettfac1d0',
 		'lead_email'         => '',
+		'smtp_user'          => 'hello@wonderads.net',
+		'smtp_pass'          => '',
 		'hero_video'         => home_url( '/wp-content/uploads/2026/10/0606e4dd-d2ff-4217-9485-2faa5fb323a2-11.59.37-PM.mp4' ),
 		'hero_poster'        => '',
 		'hero_audio'         => '',
@@ -45,7 +47,7 @@ function wa_defaults() {
 function wa_opt( $key ) {
 	if ( 'lead_email' === $key ) {
 		$o = get_option( 'wa_settings', array() );
-		return ! empty( $o['lead_email'] ) ? $o['lead_email'] : get_option( 'admin_email' );
+		return ! empty( $o['lead_email'] ) ? $o['lead_email'] : ( ! empty( $o['notify_email'] ) ? $o['notify_email'] : 'hello@wonderads.net' );
 	}
 	$opts     = get_option( 'wa_settings', array() );
 	$defaults = wa_defaults();
@@ -368,7 +370,7 @@ add_action(
 						if ( ! isset( $in[ $k ] ) ) {
 							continue;
 						}
-						$out[ $k ] = ( 'gdrive_sa_json' === $k ) ? trim( wp_unslash( $in[ $k ] ) ) : sanitize_text_field( $in[ $k ] );
+						$out[ $k ] = in_array( $k, array( 'gdrive_sa_json', 'smtp_pass' ), true ) ? trim( wp_unslash( $in[ $k ] ) ) : sanitize_text_field( $in[ $k ] );
 					}
 					return $out;
 				},
@@ -389,10 +391,12 @@ function wa_settings_page() {
 		),
 		'Notifications' => array(
 			'notify_email' => array( 'Send new briefs to', '', 'email' ),
+			'smtp_user'    => array( 'Send all site email from', 'The Hostinger mailbox every WordPress email is sent from, signed for inbox delivery.', 'email' ),
+			'smtp_pass'    => array( 'Mailbox password', 'The password of the mailbox above (Hostinger → Emails). Stored only in WordPress. Leave empty to use the server mailer.', 'password' ),
 		),
 		'Voice agent'   => array(
 			'elevenlabs_agent' => array( 'ElevenLabs agent ID', 'The Alex voice agent shown on every page. Type "off" to hide it.', 'text' ),
-			'lead_email'       => array( 'Send lead reports to', 'Every conversation where Alex captures a lead is emailed here. Leave empty to use the WordPress admin email.', 'email' ),
+			'lead_email'       => array( 'Send lead reports to', 'Every conversation where Alex captures a lead is emailed here. Leave empty to use the brief address above.', 'email' ),
 		),
 		'Videos'        => array(
 			'hero_video'    => array( 'Hero background video URL', 'Leave empty to use the newest video in the Media Library. A compressed web version (under 15 MB, 1080p) loads fastest.', 'url' ),
@@ -447,6 +451,12 @@ function wa_settings_page() {
 			<?php endforeach; ?>
 			<?php submit_button(); ?>
 		</form>
+		<h2>Email delivery</h2>
+		<?php if ( isset( $_GET['wa_mail'] ) ) : ?>
+			<div class="notice <?php echo 'ok' === $_GET['wa_mail'] ? 'notice-success' : 'notice-error'; ?>"><p><?php echo 'ok' === $_GET['wa_mail'] ? 'Test email sent. Check your inbox.' : 'Test email failed: ' . esc_html( get_transient( 'wa_mail_error' ) ); ?></p></div>
+		<?php endif; ?>
+		<p>Mailer: <strong><?php echo wa_opt( 'smtp_pass' ) ? 'Hostinger SMTP (authenticated)' : 'Server mailer (add the mailbox password above for best delivery)'; ?></strong></p>
+		<p><a class="button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=wa_test_mail' ), 'wa_test_mail' ) ); ?>">Send a test email to <?php echo esc_html( wa_opt( 'notify_email' ) ); ?></a></p>
 		<?php if ( $videos ) : ?>
 			<h2>Videos in your Media Library</h2>
 			<p>Copy any of these into the video fields above.</p>
@@ -1080,5 +1090,60 @@ add_action(
 				},
 			)
 		);
+	}
+);
+
+
+/* Email delivery: authenticated Hostinger SMTP, aligned From address, high priority. */
+add_action(
+	'phpmailer_init',
+	function ( $mail ) {
+		$user = sanitize_email( wa_opt( 'smtp_user' ) );
+		$pass = (string) wa_opt( 'smtp_pass' );
+		if ( $user && $pass ) {
+			$mail->isSMTP();
+			$mail->Host       = 'smtp.hostinger.com';
+			$mail->Port       = 465;
+			$mail->SMTPSecure = 'ssl';
+			$mail->SMTPAuth   = true;
+			$mail->Username   = $user;
+			$mail->Password   = $pass;
+		}
+		if ( $user ) {
+			$mail->Sender = $user;
+		}
+		$mail->Priority = 1;
+		$mail->addCustomHeader( 'Importance', 'High' );
+		$mail->addCustomHeader( 'X-MSMail-Priority', 'High' );
+	}
+);
+add_filter(
+	'wp_mail_from',
+	function ( $from ) {
+		$user = sanitize_email( wa_opt( 'smtp_user' ) );
+		return $user ? $user : $from;
+	}
+);
+add_filter(
+	'wp_mail_from_name',
+	function () {
+		return 'Wonder Ads';
+	}
+);
+add_action(
+	'wp_mail_failed',
+	function ( $err ) {
+		set_transient( 'wa_mail_error', $err->get_error_message(), HOUR_IN_SECONDS );
+	}
+);
+add_action(
+	'admin_post_wa_test_mail',
+	function () {
+		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'wa_test_mail' ) ) {
+			wp_die( 'Not allowed.' );
+		}
+		$ok = wp_mail( wa_opt( 'notify_email' ), 'Wonder Ads test email', "This is a test from wonderads.net.\n\nIf it landed in your inbox, site email is working." );
+		wp_safe_redirect( admin_url( 'admin.php?page=wonder-ads&wa_mail=' . ( $ok ? 'ok' : 'fail' ) ) );
+		exit;
 	}
 );
