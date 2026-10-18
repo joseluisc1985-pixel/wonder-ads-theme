@@ -55,21 +55,31 @@
 	/* Hero sound */
 	var heroVideo = $('[data-hero-video]');
 	var soundBtn = $('[data-sound]');
+	var heroAudio = $('[data-hero-audio]');
+	var soundOn = false;
 	function setSound(on) {
-		if (!heroVideo) return;
-		heroVideo.muted = !on;
-		if (on) { heroVideo.volume = 0.8; var p = heroVideo.play(); if (p && p.catch) p.catch(function () {}); }
+		if (!heroVideo && !heroAudio) return;
+		soundOn = on;
+		if (heroAudio) {
+			// Voiceover track plays over the (muted) hero video.
+			if (on) { heroAudio.volume = 1; var pa = heroAudio.play(); if (pa && pa.catch) pa.catch(function () {}); if (heroVideo) { var pv = heroVideo.play(); if (pv && pv.catch) pv.catch(function () {}); } }
+			else { heroAudio.pause(); }
+		} else if (heroVideo) {
+			heroVideo.muted = !on;
+			if (on) { heroVideo.volume = 0.8; var p = heroVideo.play(); if (p && p.catch) p.catch(function () {}); }
+		}
 		if (soundBtn) soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
 		if (soundBtn) soundBtn.querySelector('strong').textContent = on ? 'Mute' : 'Play';
 	}
 	if (soundBtn) {
-		soundBtn.addEventListener('click', function (e) { e.stopPropagation(); setSound(heroVideo.muted); });
+		soundBtn.addEventListener('click', function (e) { e.stopPropagation(); setSound(!soundOn); });
+		if (heroAudio) heroAudio.addEventListener('ended', function () { setSound(false); heroAudio.currentTime = 0; });
 	}
-	if (hero && heroVideo) {
+	if (hero && (heroVideo || heroAudio)) {
 		// First tap anywhere in the hero (outside links) turns sound on.
 		hero.addEventListener('click', function (e) {
 			if (e.target.closest('a, button')) return;
-			if (heroVideo.muted) setSound(true);
+			if (!soundOn) setSound(true);
 		});
 	}
 

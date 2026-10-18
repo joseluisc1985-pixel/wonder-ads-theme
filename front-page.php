@@ -2,6 +2,7 @@
 get_header();
 $p     = wa_pricing();
 $hero  = wa_video( 'hero_video' );
+$heroa = wa_hero_audio();
 $cmpv  = wa_video( 'compare_video' );
 $cmpi  = wa_opt( 'compare_photo' );
 $links = array(
@@ -37,6 +38,7 @@ $links = array(
 		<div class="wrap hero-foot">
 			<span>Delivered in 48 hours · Crafted by filmmakers</span>
 			<?php if ( $hero ) : ?>
+				<?php if ( $heroa ) : ?><audio data-hero-audio src="<?php echo esc_url( $heroa ); ?>" preload="none"></audio><?php endif; ?>
 				<button class="sound" data-sound aria-pressed="false"><span class="sound-icon" aria-hidden="true"></span><strong>Play</strong> — Hear the story.</button>
 			<?php endif; ?>
 		</div>

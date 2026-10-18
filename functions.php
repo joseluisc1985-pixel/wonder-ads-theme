@@ -24,6 +24,7 @@ function wa_defaults() {
 		'lead_email'         => '',
 		'hero_video'         => '',
 		'hero_poster'        => '',
+		'hero_audio'         => '',
 		'ex1_video'          => '',
 		'ex1_title'          => 'Bay Harbor Residence',
 		'ex1_meta'           => 'Miami, FL · $4.2M',
@@ -69,6 +70,18 @@ function wa_library_videos() {
 		)
 	);
 	return array_map( 'wp_get_attachment_url', wp_list_pluck( $posts, 'ID' ) );
+}
+
+/**
+ * Hero voiceover: setting, else newest audio in the media library.
+ */
+function wa_hero_audio() {
+	$url = wa_opt( 'hero_audio' );
+	if ( $url ) {
+		return $url;
+	}
+	$a = get_posts( array( 'post_type' => 'attachment', 'post_mime_type' => 'audio', 'post_status' => 'inherit', 'numberposts' => 1, 'orderby' => 'date', 'order' => 'DESC' ) );
+	return $a ? wp_get_attachment_url( $a[0]->ID ) : '';
 }
 
 /**
@@ -384,6 +397,7 @@ function wa_settings_page() {
 		'Videos'        => array(
 			'hero_video'    => array( 'Hero background video URL', 'Leave empty to use the newest video in the Media Library. A compressed web version (under 15 MB, 1080p) loads fastest.', 'url' ),
 			'hero_poster'   => array( 'Hero poster image URL', 'Shown while the video loads.', 'url' ),
+			'hero_audio'    => array( 'Hero voiceover audio URL', 'Plays when visitors press Play in the hero. Leave empty to use the newest audio file in the Media Library.', 'url' ),
 			'ex1_video'     => array( 'Example 1 video URL', '', 'url' ),
 			'ex1_title'     => array( 'Example 1 title', '', 'text' ),
 			'ex1_meta'      => array( 'Example 1 details', '', 'text' ),
