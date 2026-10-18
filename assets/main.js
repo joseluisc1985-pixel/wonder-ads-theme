@@ -60,7 +60,7 @@
 		heroVideo.muted = !on;
 		if (on) { heroVideo.volume = 0.8; var p = heroVideo.play(); if (p && p.catch) p.catch(function () {}); }
 		if (soundBtn) soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-		if (soundBtn) soundBtn.querySelector('strong').textContent = on ? 'Sound off' : 'Sound on';
+		if (soundBtn) soundBtn.querySelector('strong').textContent = on ? 'Mute' : 'Play';
 	}
 	if (soundBtn) {
 		soundBtn.addEventListener('click', function (e) { e.stopPropagation(); setSound(heroVideo.muted); });

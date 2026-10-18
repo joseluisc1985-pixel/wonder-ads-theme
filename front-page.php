@@ -37,7 +37,7 @@ $links = array(
 		<div class="wrap hero-foot">
 			<span>Delivered in 48 hours · Crafted by filmmakers</span>
 			<?php if ( $hero ) : ?>
-				<button class="sound" data-sound aria-pressed="false"><span class="sound-icon" aria-hidden="true"></span><strong>Sound on</strong> — Hear the story.</button>
+				<button class="sound" data-sound aria-pressed="false"><span class="sound-icon" aria-hidden="true"></span><strong>Play</strong> — Hear the story.</button>
 			<?php endif; ?>
 		</div>
 	</section>
