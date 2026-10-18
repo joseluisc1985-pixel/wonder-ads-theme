@@ -1147,3 +1147,79 @@ add_action(
 		exit;
 	}
 );
+
+/*
+ * Private briefs snapshot for the owner's assistant (read through the Hostinger file manager API).
+ * Written to wp-content/wa-private/, which is blocked from the web.
+ */
+function wa_private_dir() {
+	$dir = WP_CONTENT_DIR . '/wa-private';
+	if ( ! is_dir( $dir ) ) {
+		wp_mkdir_p( $dir );
+	}
+	if ( ! file_exists( $dir . '/.htaccess' ) ) {
+		file_put_contents( $dir . '/.htaccess', "Require all denied\nDeny from all\n" );
+	}
+	if ( ! file_exists( $dir . '/index.php' ) ) {
+		file_put_contents( $dir . '/index.php', "<?php\n// Silence.\n" );
+	}
+	return $dir;
+}
+
+function wa_write_briefs_snapshot() {
+	$posts = get_posts(
+		array(
+			'post_type'   => 'wa_submission',
+			'numberposts' => 300,
+			'post_status' => 'any',
+			'orderby'     => 'date',
+			'order'       => 'DESC',
+		)
+	);
+	$rows = array();
+	foreach ( $posts as $p ) {
+		$rows[] = array( 'id' => $p->ID, 'date' => $p->post_date, 'status' => $p->post_status, 'title' => $p->post_title ) + wa_flatten_submission( (array) get_post_meta( $p->ID, '_wa_data', true ) );
+	}
+	$out = array(
+		'generated' => current_time( 'mysql' ),
+		'total'     => count( $rows ),
+		'briefs'    => $rows,
+	);
+	file_put_contents( wa_private_dir() . '/briefs.json', wp_json_encode( $out, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+}
+
+function wa_flag_briefs_snapshot() {
+	if ( ! has_action( 'shutdown', 'wa_write_briefs_snapshot' ) ) {
+		add_action( 'shutdown', 'wa_write_briefs_snapshot' );
+	}
+}
+foreach ( array( 'added_post_meta', 'updated_post_meta' ) as $wa_hook ) {
+	add_action(
+		$wa_hook,
+		function ( $mid, $post_id, $key ) {
+			if ( '_wa_data' === $key ) {
+				wa_flag_briefs_snapshot();
+			}
+		},
+		10,
+		3
+	);
+}
+add_action(
+	'transition_post_status',
+	function ( $new, $old, $post ) {
+		if ( 'wa_submission' === $post->post_type ) {
+			wa_flag_briefs_snapshot();
+		}
+	},
+	10,
+	3
+);
+add_action(
+	'init',
+	function () {
+		if ( ! file_exists( WP_CONTENT_DIR . '/wa-private/briefs.json' ) ) {
+			wa_flag_briefs_snapshot();
+		}
+	}
+);
