@@ -12,7 +12,7 @@
 	</div>
 	<div class="wrap"><div class="footer-base">
 		<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Wonder Ads. All rights reserved.</span>
-		<span><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy</a> · <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms</a></span>
+		<span><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Journal</a> · <a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy</a> · <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms</a></span>
 	</div></div>
 </footer>
 

@@ -1223,3 +1223,264 @@ add_action(
 		}
 	}
 );
+
+/* ---------- Journal (blog) ---------- */
+
+function wa_read_time( $post = null ) {
+	$words = str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post ? $post : get_the_ID() ) ) );
+	return max( 1, (int) round( $words / 230 ) );
+}
+
+function wa_meta_description() {
+	$default = 'Wonder Ads is a boutique AI video agency for luxury realtors. Cinematic reel videos from your listing photos, delivered in 48 hours.';
+	if ( is_singular( 'post' ) ) {
+		$m = get_post_meta( get_the_ID(), '_wa_meta', true );
+		return $m ? $m : wp_trim_words( get_the_excerpt(), 30 );
+	}
+	if ( is_page( 'blog' ) ) {
+		return 'The Wonder Ads Journal: luxury real estate market insight, listing marketing playbooks and investment ideas for luxury realtors, brokers and investors.';
+	}
+	if ( is_category() ) {
+		$d = wp_strip_all_tags( category_description() );
+		return $d ? $d : single_cat_title( '', false ) . ' articles from the Wonder Ads Journal, for luxury realtors and investors.';
+	}
+	return $default;
+}
+
+add_filter(
+	'document_title_parts',
+	function ( $parts ) {
+		if ( is_singular( 'post' ) ) {
+			$t = get_post_meta( get_the_ID(), '_wa_seo_title', true );
+			if ( $t ) {
+				return array( 'title' => $t );
+			}
+		}
+		if ( is_page( 'blog' ) ) {
+			return array( 'title' => 'Luxury Real Estate Journal', 'site' => 'Wonder Ads' );
+		}
+		return $parts;
+	}
+);
+
+/* Open Graph + structured data for articles. */
+add_action(
+	'wp_head',
+	function () {
+		$title = wp_get_document_title();
+		$desc  = wa_meta_description();
+		$url   = is_singular() ? get_permalink() : home_url( add_query_arg( array(), $GLOBALS['wp']->request ) . '/' );
+		echo '<meta property="og:site_name" content="Wonder Ads">' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+		echo '<meta property="og:type" content="' . ( is_singular( 'post' ) ? 'article' : 'website' ) . '">' . "\n";
+		echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+		if ( is_singular( 'post' ) ) {
+			if ( has_post_thumbnail() ) {
+				echo '<meta property="og:image" content="' . esc_url( get_the_post_thumbnail_url( null, 'full' ) ) . '">' . "\n";
+			}
+			$cats   = get_the_category();
+			$crumbs = array(
+				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url( '/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Journal', 'item' => home_url( '/blog/' ) ),
+			);
+			if ( $cats ) {
+				$crumbs[] = array( '@type' => 'ListItem', 'position' => 3, 'name' => $cats[0]->name, 'item' => get_category_link( $cats[0] ) );
+			}
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => count( $crumbs ) + 1, 'name' => get_the_title(), 'item' => get_permalink() );
+			$org      = array( '@type' => 'Organization', 'name' => 'Wonder Ads', 'url' => home_url( '/' ) );
+			$graph    = array(
+				'@context' => 'https://schema.org',
+				'@graph'   => array(
+					array_filter(
+						array(
+							'@type'            => 'BlogPosting',
+							'headline'         => get_the_title(),
+							'description'      => $desc,
+							'datePublished'    => get_the_date( 'c' ),
+							'dateModified'     => get_the_modified_date( 'c' ),
+							'mainEntityOfPage' => get_permalink(),
+							'image'            => has_post_thumbnail() ? get_the_post_thumbnail_url( null, 'full' ) : null,
+							'author'           => $org,
+							'publisher'        => $org,
+							'articleSection'   => $cats ? $cats[0]->name : null,
+							'keywords'         => get_post_meta( get_the_ID(), '_wa_keyword', true ),
+						)
+					),
+					array( '@type' => 'BreadcrumbList', 'itemListElement' => $crumbs ),
+				),
+			);
+			$faq = (array) get_post_meta( get_the_ID(), '_wa_faq', true );
+			if ( $faq ) {
+				$graph['@graph'][] = array(
+					'@type'      => 'FAQPage',
+					'mainEntity' => array_map(
+						function ( $f ) {
+							return array( '@type' => 'Question', 'name' => $f['q'], 'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $f['a'] ) );
+						},
+						array_filter( $faq, 'is_array' )
+					),
+				);
+			}
+			echo '<script type="application/ld+json">' . wp_json_encode( $graph, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+		}
+	},
+	5
+);
+
+/* Internal links written as post:slug resolve to the live permalink. */
+add_filter(
+	'the_content',
+	function ( $html ) {
+		return preg_replace_callback(
+			'#href="post:([a-z0-9-]+)"#',
+			function ( $m ) {
+				$p = get_page_by_path( $m[1], OBJECT, 'post' );
+				return 'href="' . esc_url( $p && 'publish' === $p->post_status ? get_permalink( $p ) : home_url( '/blog/' ) ) . '"';
+			},
+			$html
+		);
+	}
+);
+
+/* Seed Journal articles from content/blog/posts.json (theme repo). New posts are created; posts edited in WordPress are never overwritten. */
+function wa_seed_blog() {
+	$file = get_template_directory() . '/content/blog/posts.json';
+	if ( ! file_exists( $file ) ) {
+		return;
+	}
+	$hash = md5_file( $file );
+	if ( get_option( 'wa_blog_seed' ) === $hash || get_transient( 'wa_blog_seed_lock' ) ) {
+		return;
+	}
+	set_transient( 'wa_blog_seed_lock', 1, 120 );
+	$data = json_decode( file_get_contents( $file ), true );
+	if ( ! is_array( $data ) ) {
+		delete_transient( 'wa_blog_seed_lock' );
+		return;
+	}
+	if ( ! get_page_by_path( 'blog' ) ) {
+		wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Journal', 'post_name' => 'blog' ) );
+	}
+	$admins = get_users( array( 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ) );
+	$author = $admins ? (int) $admins[0] : 1;
+	kses_remove_filters();
+	foreach ( $data['categories'] as $c ) {
+		if ( ! term_exists( $c['name'], 'category' ) ) {
+			wp_insert_term( $c['name'], 'category', array( 'slug' => $c['slug'], 'description' => $c['description'] ) );
+		}
+	}
+	foreach ( $data['posts'] as $item ) {
+		$cat      = get_term_by( 'name', $item['category'], 'category' );
+		$existing = get_posts( array( 'name' => $item['slug'], 'post_type' => 'post', 'post_status' => array( 'publish', 'draft', 'pending', 'future', 'private' ), 'numberposts' => 1 ) );
+		$args     = array(
+			'post_type'     => 'post',
+			'post_title'    => $item['title'],
+			'post_name'     => $item['slug'],
+			'post_content'  => $item['html'],
+			'post_excerpt'  => $item['excerpt'],
+			'post_status'   => isset( $item['status'] ) ? $item['status'] : 'draft',
+			'post_author'   => $author,
+			'post_category'  => $cat ? array( (int) $cat->term_id ) : array(),
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		);
+		if ( ! empty( $item['date'] ) ) {
+			$args['post_date'] = $item['date'];
+		}
+		if ( $existing ) {
+			$p = $existing[0];
+			// Leave alone anything edited in WordPress since we last seeded it.
+			if ( get_post_meta( $p->ID, '_wa_seeded_modified', true ) !== $p->post_modified ) {
+				continue;
+			}
+			$args['ID'] = $p->ID;
+			$id         = wp_update_post( $args );
+		} else {
+			$id = wp_insert_post( $args );
+		}
+		if ( $id && ! is_wp_error( $id ) ) {
+			update_post_meta( $id, '_wa_meta', $item['meta'] );
+			update_post_meta( $id, '_wa_seo_title', $item['seo_title'] );
+			update_post_meta( $id, '_wa_keyword', $item['keyword'] );
+			update_post_meta( $id, '_wa_faq', isset( $item['faq'] ) ? $item['faq'] : array() );
+			clean_post_cache( $id );
+			update_post_meta( $id, '_wa_seeded_modified', get_post_field( 'post_modified', $id ) );
+		}
+	}
+	kses_init_filters();
+	$report = array();
+	foreach ( get_posts( array( 'post_type' => 'post', 'numberposts' => -1, 'post_status' => 'any' ) ) as $p ) {
+		$report[] = array( 'id' => $p->ID, 'status' => $p->post_status, 'slug' => $p->post_name, 'title' => $p->post_title, 'comments' => $p->comment_status );
+	}
+	file_put_contents( wa_private_dir() . '/blog-seed.json', wp_json_encode( array( 'seeded' => current_time( 'mysql' ), 'posts' => $report ), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+	update_option( 'wa_blog_seed', $hash, false );
+	delete_transient( 'wa_blog_seed_lock' );
+}
+add_action( 'init', 'wa_seed_blog', 20 );
+
+/* Comments are off site-wide: no comment forms, pings or comment admin. */
+add_filter( 'comments_open', '__return_false', 20 );
+add_filter( 'pings_open', '__return_false', 20 );
+add_filter( 'comments_array', '__return_empty_array', 10 );
+add_action(
+	'init',
+	function () {
+		foreach ( array( 'post', 'page' ) as $t ) {
+			remove_post_type_support( $t, 'comments' );
+			remove_post_type_support( $t, 'trackbacks' );
+		}
+	},
+	100
+);
+add_action(
+	'admin_menu',
+	function () {
+		remove_menu_page( 'edit-comments.php' );
+	}
+);
+add_action(
+	'wp_before_admin_bar_render',
+	function () {
+		global $wp_admin_bar;
+		$wp_admin_bar->remove_menu( 'comments' );
+	}
+);
+add_filter( 'feed_links_show_comments_feed', '__return_false' );
+
+
+/* llms.txt: a plain-text guide to the site for AI assistants and answer engines. */
+add_action(
+	'init',
+	function () {
+		$path = trim( wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '', PHP_URL_PATH ), '/' );
+		if ( 'llms.txt' !== $path ) {
+			return;
+		}
+		$p     = wa_pricing();
+		$lines = array(
+			'# Wonder Ads',
+			'',
+			'> Wonder Ads (wonderads.net) is a boutique AI video agency for luxury realtors, based in Miami, Florida. We turn MLS listing photos into cinematic reel videos with original music, voiceover storytelling and captions, delivered within 2 days. No shoot day.',
+			'',
+			'## Services',
+			'- Cinematic listing video (30-second vertical reel): $800. 60 seconds: $1,600. 90 seconds: $2,400. Horizontal or square versions: +$150 each.',
+			'- Collections, 20% off: Debut (3 videos) $1,920; Signature (6 videos) $3,840; Estate (10 videos) $6,400.',
+			'- Every video includes concept and script, original music, voiceover, captions, text on screen and two rounds of revisions.',
+			'- First video free for new realtors: ' . home_url( '/free-video/' ),
+			'- Pricing and Collections: ' . home_url( '/#pricing' ),
+			'- Support: support@wonderads.net',
+			'',
+			'## Journal',
+		);
+		foreach ( get_posts( array( 'post_type' => 'post', 'post_status' => 'publish', 'numberposts' => 200 ) ) as $post ) {
+			$desc    = get_post_meta( $post->ID, '_wa_meta', true );
+			$lines[] = '- [' . $post->post_title . '](' . get_permalink( $post ) . ')' . ( $desc ? ': ' . $desc : '' );
+		}
+		header( 'Content-Type: text/plain; charset=utf-8' );
+		echo implode( "\n", $lines ) . "\n";
+		exit;
+	},
+	1
+);

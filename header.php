@@ -3,7 +3,7 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="description" content="Wonder Ads is a boutique AI video agency for luxury realtors. Cinematic reel videos from your listing photos, delivered in 48 hours.">
+	<meta name="description" content="<?php echo esc_attr( wa_meta_description() ); ?>">
 	<meta name="theme-color" content="#FFFFFF">
 	<?php wp_head(); ?>
 </head>
@@ -17,6 +17,7 @@
 			<a href="<?php echo esc_url( home_url( '/#examples' ) ); ?>">Examples</a>
 			<a href="<?php echo esc_url( home_url( '/#pricing' ) ); ?>">Pricing</a>
 			<a href="<?php echo esc_url( home_url( '/#faq' ) ); ?>">FAQ</a>
+			<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Journal</a>
 			<a class="btn btn-sm" href="<?php echo esc_url( home_url( '/free-video/' ) ); ?>">Create My Free Video</a>
 		</nav>
 		<button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
