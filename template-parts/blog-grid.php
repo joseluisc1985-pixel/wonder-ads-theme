@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal listing. $args: query (WP_Query), title, lead, eyebrow.
+ * Blog listing. $args: query (WP_Query), title, lead, eyebrow.
  */
 $q = isset( $args['query'] ) ? $args['query'] : $GLOBALS['wp_query'];
 ?>

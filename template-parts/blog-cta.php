@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal call to action: Wonder Ads services.
+ * Blog call to action: Wonder Ads services.
  */
 ?>
 <aside class="blog-cta reveal" aria-label="Wonder Ads">

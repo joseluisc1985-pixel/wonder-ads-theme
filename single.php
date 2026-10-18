@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal article.
+ * Blog article.
  */
 get_header();
 while ( have_posts() ) :
@@ -13,7 +13,7 @@ while ( have_posts() ) :
 		<div class="wrap article-wrap">
 			<nav class="crumbs" aria-label="Breadcrumb">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> <span>/</span>
-				<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Journal</a>
+				<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
 				<?php if ( $cat ) : ?><span>/</span> <a href="<?php echo esc_url( get_category_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a><?php endif; ?>
 			</nav>
 			<header class="article-head">

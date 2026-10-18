@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal index (slug: blog).
+ * Blog index (slug: blog).
  */
 get_header();
 $paged = max( 1, get_query_var( 'paged' ) ? get_query_var( 'paged' ) : get_query_var( 'page' ) );
@@ -10,7 +10,7 @@ get_template_part(
 	null,
 	array(
 		'query'   => $q,
-		'eyebrow' => 'The Journal',
+		'eyebrow' => 'The Blog',
 		'title'   => 'Luxury real estate, told well.',
 		'lead'    => 'Market insight, marketing playbooks and investment ideas for luxury realtors, brokers and investors, from the Wonder Ads studio.',
 	)

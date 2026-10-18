@@ -1,6 +1,6 @@
 <?php
 /**
- * Journal card.
+ * Blog card.
  */
 $cats = get_the_category();
 $cat  = $cats ? $cats[0] : null;

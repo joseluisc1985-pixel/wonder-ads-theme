@@ -1224,7 +1224,7 @@ add_action(
 	}
 );
 
-/* ---------- Journal (blog) ---------- */
+/* ---------- Blog ---------- */
 
 function wa_read_time( $post = null ) {
 	$words = str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post ? $post : get_the_ID() ) ) );
@@ -1238,11 +1238,11 @@ function wa_meta_description() {
 		return $m ? $m : wp_trim_words( get_the_excerpt(), 30 );
 	}
 	if ( is_page( 'blog' ) ) {
-		return 'The Wonder Ads Journal: luxury real estate market insight, listing marketing playbooks and investment ideas for luxury realtors, brokers and investors.';
+		return 'The Wonder Ads Blog: luxury real estate market insight, listing marketing playbooks and investment ideas for luxury realtors, brokers and investors.';
 	}
 	if ( is_category() ) {
 		$d = wp_strip_all_tags( category_description() );
-		return $d ? $d : single_cat_title( '', false ) . ' articles from the Wonder Ads Journal, for luxury realtors and investors.';
+		return $d ? $d : single_cat_title( '', false ) . ' articles from the Wonder Ads Blog, for luxury realtors and investors.';
 	}
 	return $default;
 }
@@ -1257,7 +1257,7 @@ add_filter(
 			}
 		}
 		if ( is_page( 'blog' ) ) {
-			return array( 'title' => 'Luxury Real Estate Journal', 'site' => 'Wonder Ads' );
+			return array( 'title' => 'Luxury Real Estate Blog', 'site' => 'Wonder Ads' );
 		}
 		return $parts;
 	}
@@ -1283,7 +1283,7 @@ add_action(
 			$cats   = get_the_category();
 			$crumbs = array(
 				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url( '/' ) ),
-				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Journal', 'item' => home_url( '/blog/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Blog', 'item' => home_url( '/blog/' ) ),
 			);
 			if ( $cats ) {
 				$crumbs[] = array( '@type' => 'ListItem', 'position' => 3, 'name' => $cats[0]->name, 'item' => get_category_link( $cats[0] ) );
@@ -1361,7 +1361,7 @@ function wa_seed_blog() {
 		return;
 	}
 	if ( ! get_page_by_path( 'blog' ) ) {
-		wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Journal', 'post_name' => 'blog' ) );
+		wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Blog', 'post_name' => 'blog' ) );
 	}
 	$admins = get_users( array( 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ) );
 	$author = $admins ? (int) $admins[0] : 1;
@@ -1451,7 +1451,7 @@ add_action(
 );
 add_filter( 'feed_links_show_comments_feed', '__return_false' );
 
-/* Unpublish the default "Hello world!" post once, so the Journal starts clean (moved to drafts, not deleted). */
+/* Unpublish the default "Hello world!" post once, so the Blog starts clean (moved to drafts, not deleted). */
 add_action(
 	'init',
 	function () {
@@ -1463,6 +1463,22 @@ add_action(
 			wp_update_post( array( 'ID' => $p->ID, 'post_status' => 'draft' ) );
 		}
 		update_option( 'wa_hello_unpublished', 1, false );
+	},
+	30
+);
+
+/* Rename the blog page from "Journal" to "Blog" once. */
+add_action(
+	'init',
+	function () {
+		if ( get_option( 'wa_blog_renamed' ) ) {
+			return;
+		}
+		$p = get_page_by_path( 'blog' );
+		if ( $p && 'Journal' === $p->post_title ) {
+			wp_update_post( array( 'ID' => $p->ID, 'post_title' => 'Blog' ) );
+		}
+		update_option( 'wa_blog_renamed', 1, false );
 	},
 	30
 );

@@ -17,7 +17,7 @@
 			<a href="<?php echo esc_url( home_url( '/#examples' ) ); ?>">Examples</a>
 			<a href="<?php echo esc_url( home_url( '/#pricing' ) ); ?>">Pricing</a>
 			<a href="<?php echo esc_url( home_url( '/#faq' ) ); ?>">FAQ</a>
-			<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Journal</a>
+			<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
 			<a class="btn btn-sm" href="<?php echo esc_url( home_url( '/free-video/' ) ); ?>">Create My Free Video</a>
 		</nav>
 		<button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
