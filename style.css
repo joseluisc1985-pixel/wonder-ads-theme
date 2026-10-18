@@ -550,3 +550,4 @@ textarea:focus, input:focus { border-color: var(--ink); }
 .article-body .key-takeaways p { margin-bottom: 10px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink); }
 .article-body .key-takeaways ul { margin: 0; }
 .article-body .key-takeaways li { margin-bottom: 6px; }
+.nav .nav-phone { font-weight: 500; letter-spacing: .02em; white-space: nowrap; }

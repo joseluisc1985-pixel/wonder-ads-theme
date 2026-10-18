@@ -18,6 +18,7 @@
 			<a href="<?php echo esc_url( home_url( '/#pricing' ) ); ?>">Pricing</a>
 			<a href="<?php echo esc_url( home_url( '/#faq' ) ); ?>">FAQ</a>
 			<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
+			<a class="nav-phone" href="tel:+14583120457" aria-label="Call Wonder Ads at (458) 312-0457">(458) 312-0457</a>
 			<a class="btn btn-sm" href="<?php echo esc_url( home_url( '/free-video/' ) ); ?>">Create My Free Video</a>
 		</nav>
 		<button class="nav-toggle" data-nav-toggle aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
