@@ -167,7 +167,7 @@
 			msg.classList.remove('is-error');
 			if (!WAc.checkout) {
 				var c0 = config();
-				msg.innerHTML = 'Online checkout is opening soon. Email <a href="mailto:' + WAc.email + '?subject=Custom%20order%20' + encodeURIComponent(money(c0.total)) + '">' + WAc.email + '</a> and we’ll reserve your video today.';
+				msg.textContent = 'Online checkout for custom orders is opening soon. Tap our live agent at the bottom right, by chat or call, and we’ll reserve your ' + money(c0.total) + ' order with you right now.';
 				return;
 			}
 			var btn = $('[data-checkout]', calc);
@@ -181,7 +181,7 @@
 				if (d.url) { window.location.href = d.url; return; }
 				throw new Error(d.error || 'Something went wrong.');
 			}).catch(function (err) {
-				msg.textContent = err.message;
+				msg.textContent = err.message + ' Need a hand? Our live agent, bottom right, can help by chat or call.';
 				msg.classList.add('is-error');
 				btn.disabled = false;
 				btn.textContent = 'Reserve My Cinematic Video';
@@ -307,7 +307,7 @@
 				doneEl.hidden = false;
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}).catch(function (err) {
-				bmsg.textContent = err.message;
+				bmsg.textContent = err.message + ' Need a hand? Our live agent, bottom right, can help by chat or call.';
 				bmsg.classList.add('is-error');
 				submit.disabled = false;
 				submit.textContent = label;

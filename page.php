@@ -7,7 +7,7 @@
 				<?php if ( get_the_content() ) : ?>
 					<?php the_content(); ?>
 				<?php else : ?>
-					<p class="lead">This page is being prepared. For any questions, write to <a href="mailto:hello@wonderads.net">hello@wonderads.net</a>.</p>
+					<p class="lead">This page is being prepared. For any questions, ask our live agent at the bottom right, by chat or call.</p>
 				<?php endif; ?>
 			<?php endwhile; ?>
 		</div>

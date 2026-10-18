@@ -280,6 +280,7 @@ $links = array(
 					<ul><li>30-second Reel videos</li><li>Delivered within 2 days</li></ul>
 				</div>
 			</div>
+			<p class="help-note reveal">Questions before you choose? Our live agent is here for you at the bottom right of the page. Chat or call, anytime.</p>
 		</div>
 	</section>
 
@@ -345,6 +346,7 @@ $links = array(
 					<p class="total" data-total>$800</p>
 					<p class="muted" data-breakdown>1 × 30-second video</p>
 					<p class="muted small">Delivered within 2 days. Secure checkout by Stripe.</p>
+				<p class="muted small">Questions? Ask our live agent at the bottom right, by chat or call.</p>
 					<button type="submit" class="btn btn-block" data-checkout>Reserve My Cinematic Video</button>
 					<p class="form-msg" data-calc-msg></p>
 				</aside>

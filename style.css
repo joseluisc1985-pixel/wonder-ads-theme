@@ -479,3 +479,4 @@ textarea:focus, input:focus { border-color: var(--ink); }
 	.footer-base { flex-direction: column; }
 	.btn { padding: 0 24px; }
 }
+.help-note { margin: 56px auto 0; max-width: 560px; text-align: center; color: #6b6b6b; font-size: .95rem; }

@@ -47,6 +47,7 @@ $prefill  = isset( $args['prefill'] ) ? $args['prefill'] : array();
 		<?php if ( 'free' === $type ) : ?><p class="muted small center">One free video per agent. No credit card required.</p><?php endif; ?>
 		<div class="progress" data-progress hidden><span></span></div>
 		<p class="form-msg" data-brief-msg></p>
+		<p class="muted small center">Need help with your brief? Our live agent is at the bottom right. Chat or call, anytime.</p>
 	</div>
 </form>
 <div class="brief-done" data-brief-done hidden>
