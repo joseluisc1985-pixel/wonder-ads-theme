@@ -5,8 +5,7 @@
 			<p class="muted">Wonder Ads — Cinematic Videos for Luxury Real Estate Brokers.</p>
 		</div>
 		<div class="footer-contact">
-			<a href="mailto:hello@wonderads.net">hello@wonderads.net</a>
-			<a href="mailto:support@wonderads.net">Support: support@wonderads.net</a>
+			<a href="mailto:support@wonderads.net">support@wonderads.net</a>
 			<a href="tel:+14583120457">24/7 Live Support (458) 312-0457</a>
 			<span>78 SW 7th St, Miami, FL 33130, United States</span>
 		</div>
