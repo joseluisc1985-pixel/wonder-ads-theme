@@ -2,7 +2,7 @@
 	<div class="wrap footer-grid">
 		<div>
 			<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">WONDER<span>ADS</span></a>
-			<p class="muted">Wonder Ads — Cinematic videos for luxury real estate.</p>
+			<p class="muted">Wonder Ads — Cinematic Videos for Luxury Real Estate Brokers.</p>
 		</div>
 		<div class="footer-contact">
 			<a href="mailto:hello@wonderads.net">hello@wonderads.net</a>
