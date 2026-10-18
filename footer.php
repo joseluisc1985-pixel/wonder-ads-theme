@@ -2,7 +2,6 @@
 	<div class="wrap footer-grid">
 		<div>
 			<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">WONDER<span>ADS</span></a>
-			<p class="footer-line">Every home has a story.<br>We make buyers feel it before the first showing.</p>
 			<p class="muted footer-sub">Cinematic videos for luxury real estate brokers. Made from your listing photos, delivered in 48 hours.</p>
 			<a class="footer-cta" href="<?php echo esc_url( home_url( '/free-video/' ) ); ?>">Start with a free video</a>
 		</div>
