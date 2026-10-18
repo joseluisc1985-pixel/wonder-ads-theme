@@ -3,14 +3,14 @@
  * Terms of Service (slug: terms).
  */
 get_header();
-$email = esc_html( wa_opt( 'notify_email' ) );
+$email = 'support@wonderads.net';
 ?>
 <main class="inner">
 	<section class="section">
 		<div class="wrap narrow prose">
 			<p class="eyebrow">Legal</p>
 			<h1 class="page-title">Terms of Service</h1>
-			<p class="muted">Last updated: October 17, 2026</p>
+			<p class="muted">Last updated: October 18, 2026</p>
 
 			<p class="lead">These terms govern your use of wonderads.net and the cinematic reel videos Wonder Ads creates for you. By placing an order, claiming a free video or using our website, you agree to them.</p>
 
@@ -33,10 +33,10 @@ $email = esc_html( wa_opt( 'notify_email' ) );
 			<p>We aim to deliver within 2 days, about 48 hours, of receiving your complete brief, including all photos and details. Larger orders may be delivered in stages. Delivery times are estimates, not guarantees, and may be longer during peak periods; we will tell you if we expect a delay.</p>
 
 			<h2>7. Revisions</h2>
-			<p>Every cinematic video includes two rounds of revisions. Revisions refine the delivered video, such as pacing, music, text, voiceover and order of scenes. A new concept, new property or new materials is a new video. Please request revisions within 14 days of delivery.</p>
+			<p>Every cinematic video includes two rounds of revisions. Revisions refine the delivered video, such as pacing, music, text, voiceover and order of scenes. A new concept, new property or new materials is a new video. Please request revisions within 14 days of delivery by emailing our support team at <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>.</p>
 
 			<h2>8. Cancellations and refunds</h2>
-			<p>Because every video is custom digital work, sales are final once production begins. If you cancel before we start work on your order, we will refund you in full. If we cannot deliver a video you ordered, we will refund the price of that video. Unused videos in a collection do not expire for 12 months from purchase.</p>
+			<p>Because every video is custom digital work, sales are final once production begins. If you cancel before we start work on your order, we will refund you in full. If we cannot deliver a video you ordered, we will refund the price of that video. Unused videos in a collection do not expire for 12 months from purchase. To request a cancellation or refund, email <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a> with your name and the email you used to order.</p>
 
 			<h2>9. Truthful marketing and compliance</h2>
 			<p>We design every video to represent the home truthfully, based on your real listing photos. You are responsible for reviewing each video before publishing it and for making sure its use complies with your MLS rules, brokerage policies, fair housing laws and any advertising or disclosure requirements in your market, including any rules about AI-generated or enhanced media.</p>
@@ -45,7 +45,7 @@ $email = esc_html( wa_opt( 'notify_email' ) );
 			<p>Once your order is paid in full, you receive a perpetual, worldwide license to use your delivered videos to market the property and your real estate business, on social media, websites, listing portals, email and paid advertising. The original music in your videos is licensed to you for use with those videos. Wonder Ads keeps all rights in its methods, tools, templates and underlying music. You may not resell the videos or use them to train AI models.</p>
 
 			<h2>11. Portfolio</h2>
-			<p>We will only show your video in our portfolio or marketing with your permission. You can withdraw permission at any time by emailing us.</p>
+			<p>We will only show your video in our portfolio or marketing with your permission. You can withdraw permission at any time by emailing <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>.</p>
 
 			<h2>12. Acceptable use</h2>
 			<p>Please don’t use our website or services for anything unlawful, misleading or harmful, or try to disrupt or copy our website or systems. We may refuse or stop work on any order that would breach these terms.</p>
@@ -62,7 +62,10 @@ $email = esc_html( wa_opt( 'notify_email' ) );
 			<h2>16. Changes</h2>
 			<p>We may update these terms. The version posted here applies to orders placed after the date shown above.</p>
 
-			<h2>17. Contact</h2>
+			<h2>17. Support</h2>
+			<p>For any support question or request about an existing order, including order status, delivery, revisions, changes to your brief or materials, invoices, cancellations and refunds, email our support team at <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>. Please include your name and the email you used to order. Questions before you buy? Our live agent at the bottom right of every page can help by chat or call, anytime.</p>
+
+			<h2>18. Contact</h2>
 			<p>Wonder Ads · 78 SW 7th St, Miami, FL 33130 · <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a> · <a href="tel:+14583120457">(458) 312-0457</a></p>
 			<p>See also our <a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy Policy</a>.</p>
 		</div>

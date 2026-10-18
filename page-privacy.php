@@ -3,14 +3,14 @@
  * Privacy Policy (slug: privacy).
  */
 get_header();
-$email = esc_html( wa_opt( 'notify_email' ) );
+$email = 'support@wonderads.net';
 ?>
 <main class="inner">
 	<section class="section">
 		<div class="wrap narrow prose">
 			<p class="eyebrow">Legal</p>
 			<h1 class="page-title">Privacy Policy</h1>
-			<p class="muted">Last updated: October 17, 2026</p>
+			<p class="muted">Last updated: October 18, 2026</p>
 
 			<p class="lead">Wonder Ads creates cinematic reel videos for luxury real estate. To do that, we work with your listing materials and a small amount of personal information. This policy explains what we collect, why, and the choices you have.</p>
 
