@@ -20,6 +20,7 @@ function wa_defaults() {
 		'link_signature'     => 'https://buy.stripe.com/test_dRm4gB4xLfv873R8uwdnW01',
 		'link_estate'        => 'https://buy.stripe.com/test_cNicN78O16YC1JxeSUdnW02',
 		'notify_email'       => 'hello@wonderads.net',
+		'elevenlabs_agent'   => 'agent_3401m566gcqcem4ttrtettfac1d0',
 		'hero_video'         => '',
 		'hero_poster'        => '',
 		'ex1_video'          => '',
@@ -367,6 +368,9 @@ function wa_settings_page() {
 		),
 		'Notifications' => array(
 			'notify_email' => array( 'Send new briefs to', '', 'email' ),
+		),
+		'Voice agent'   => array(
+			'elevenlabs_agent' => array( 'ElevenLabs agent ID', 'The Alex voice agent shown on every page. Type "off" to hide it.', 'text' ),
 		),
 		'Videos'        => array(
 			'hero_video'    => array( 'Hero background video URL', 'Leave empty to use the newest video in the Media Library. A compressed web version (under 15 MB, 1080p) loads fastest.', 'url' ),
@@ -917,4 +921,21 @@ add_action(
 			);
 		}
 	}
+);
+
+/* -------------------------------------------------------------------------
+ * ElevenLabs voice agent (Alex)
+ * ---------------------------------------------------------------------- */
+
+add_action(
+	'wp_footer',
+	function () {
+		$agent = trim( (string) wa_opt( 'elevenlabs_agent' ) );
+		if ( '' === $agent || 'off' === strtolower( $agent ) ) {
+			return;
+		}
+		printf( '<elevenlabs-convai agent-id="%s"></elevenlabs-convai>', esc_attr( $agent ) );
+		echo '<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>';
+	},
+	50
 );
